@@ -11,6 +11,7 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams
     const projectId = searchParams.get('projectId')
 
+    // Check if user provided project ID
     if (!projectId) {
       return NextResponse.json({
         "error": "Bad Request",
@@ -27,6 +28,7 @@ export async function GET(request: NextRequest) {
       error: authError
     } = await supabase.auth.getUser()
 
+    // Check if user is authenticated
     if (authError || !user) {
       return NextRequest.json({
         error: "Unauthorized",
@@ -36,12 +38,14 @@ export async function GET(request: NextRequest) {
     }
 
     // TODO: Verify user owns project
+    // Get project corresponding to given project ID
     const { data: project, error: projectError } = await supabase
       .from("projects")
       .select("owner_id")
       .eq("id", projectId)
       .single()
 
+    // Check if project with given project ID exists
     if (projectError || !project) {
       return NextResponse.json({
         error: "Project not found",
@@ -50,6 +54,7 @@ export async function GET(request: NextRequest) {
     },{ status: 404 })
     }
 
+    // PROJECT OWNERSHIP CHECK
     if (project.owner_id !== user.id) {
       return NextResponse.json({
         error: "Forbidden",
@@ -65,6 +70,7 @@ export async function GET(request: NextRequest) {
       .eq("project_id", projectId)
       .order("created_at", { ascending: true })
 
+    // Check if query was successful
     if (reqError) {
       return NextResponse.json({
         error: "Failed to fetch requirements",
@@ -97,6 +103,8 @@ export async function POST(request: NextRequest) {
       data: { user },
       error: authError
     } = await supabase.auth.getUser()
+
+    // Check if user is authenticated
     if (authError || !user) {
       return NextResponse.json({ 
         "error": "Unauthorized",
@@ -145,12 +153,14 @@ export async function POST(request: NextRequest) {
     }
 
     // TODO: Verify user owns project
+    // Get id of project owner
     const { data: project, error: projectError } = await supabase
       .from("projects")
       .select("owner_id")
       .eq("id", projectId)
       .single()
 
+    // Check that project with given project id exists
     if (projectError || !project) {
       return NextResponse.json({
         "error": "Not Found",
@@ -161,6 +171,7 @@ export async function POST(request: NextRequest) {
       }, {status: 404})
     }
 
+    // PROJECT OWNERSHIP CHECK
     if (project.owner_id !== user.id) { 
       return NextResponse.json({
         "error": "Forbidden",
@@ -183,6 +194,7 @@ export async function POST(request: NextRequest) {
       .select()
       .single()
 
+    // Check if database insertion was successful
     if (insertError) {
       return NextResponse.json({
         error: "Failed to create requirement",

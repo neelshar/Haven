@@ -17,6 +17,7 @@ export async function PUT(
       error: authError
     } = await supabase.auth.getUser()
 
+    // Check if user is authenticated
     if (authError || !user) {
       return NextResponse.json({
         error: "Unauthorized",
@@ -26,12 +27,14 @@ export async function PUT(
     }
 
     // TODO: Verify user owns requirement
+    // Get requirements of project
     const { data: requirement, error: reqFetchError } = await supabase
       .from("requirements")
       .select("id", "project_id")
       .eq("id", requirementId)
       .single()
 
+    // Check if requirement fetch was successful
     if (reqFetchError || !requirement) {
       return NextResponse.json({
         error: "Requirement not found",
@@ -40,12 +43,14 @@ export async function PUT(
     },{ status: 404 })
     }
     
+    // Get project from database
     const { data: project, error: projectError } = await supabase
       .from("projects")
       .select("owner_id")
       .eq("id", requirement.project_id)
       .single()
     
+    // Check if project exists in database
     if (projectError || !project) {
       return NextResponse.json({
         error: "Parent project not found",
@@ -54,6 +59,7 @@ export async function PUT(
     }, { status: 404 })
     }
 
+    // PROJECT OWNERSHIP CHECK
     if (project.owner_id !== user.id) {
       return NextResponse.json({
         error: "Forbidden",
@@ -89,6 +95,7 @@ export async function PUT(
       .select()
       .single()
 
+    // Check if update was successful
     if (updateError) {
       return NextResponse.json({
         error: "Failed to update requirement",
@@ -126,6 +133,7 @@ export async function DELETE(
       error: authError
     } = await supabase.auth.getUser()
 
+    // Check that user is authenticated
     if (authError || !user) {
       return NextResponse({
         error: "Unauthorized",
@@ -135,12 +143,14 @@ export async function DELETE(
     }
 
     // TODO: Verify user owns requirement
+    // Fetch requirement from database
     const { data: requirement, error: reqError } = await supabase
       .from("requirements")
       .select("id, project_id")
       .eq("id", requirementId)
       .single()
 
+    // Check if requirement fetch was successful
     if (reqError || !requirement) {
       return NextResponse.json({
         error: "Requirement not found",
@@ -149,12 +159,14 @@ export async function DELETE(
       }, { status: 404 })
     }
 
+    // Fetch project from database
     const { data: project, error: projectError } = await supabase
       .from("projects")
       .select("owner_id")
       .eq("id", requirement.project_id)
       .single()
 
+    // Check if project fetch was successful
     if (projectError || !project) {
       return NextResponse.json({
         error: "Parent project not found",
@@ -163,6 +175,7 @@ export async function DELETE(
       }, { status: 404 })
     }
 
+    // PROJECT OWNERSHIP CHECK
     if (project.owner_id !== user.id) {
       return NextResponse.json({
         error: "Forbidden",
@@ -177,6 +190,7 @@ export async function DELETE(
       .delete()
       .eq("id", requirementId)
 
+    // Check if deletion was successful
     if (deleteError) {
       return NextResponse.json({
         error: "Failed to delete requirement",
