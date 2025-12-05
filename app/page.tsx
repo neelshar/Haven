@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import { Search, ArrowRight, Star, ExternalLink, Check } from 'lucide-react'
+import { Search, ArrowRight, Star, ExternalLink, CheckCircle2 } from 'lucide-react'
 
 // Hardcoded vendor data
 const VENDORS = [
@@ -9,131 +9,79 @@ const VENDORS = [
     id: 1,
     name: 'Notion',
     tagline: 'All-in-one workspace for notes, docs, and projects',
-    description: "A connected workspace where better, faster work happens. Notion blends your everyday work apps into one — it's the all-in-one workspace for you and your team.",
+    description: "A connected workspace where better, faster work happens. Notion blends your everyday work apps into one.",
     category: 'Productivity',
     rating: 4.8,
     reviews: 12500,
     pricing: 'Free - $15/user/mo',
     features: ['Real-time collaboration', 'AI-powered writing', 'Database views', 'API integrations'],
     website: 'https://notion.so',
-    matchKeywords: ['notes', 'documentation', 'wiki', 'project management', 'collaboration', 'workspace', 'team', 'organize', 'planning', 'database', 'knowledge base'],
+    matchKeywords: ['notes', 'documentation', 'wiki', 'project management', 'collaboration', 'workspace', 'team', 'organize', 'planning', 'database'],
   },
   {
     id: 2,
     name: 'Slack',
     tagline: 'Where work happens',
-    description: 'Slack is your digital HQ. Transform the way you work with one place for everyone and everything you need to get stuff done.',
+    description: 'Slack is your digital HQ. Transform the way you work with one place for everyone and everything.',
     category: 'Communication',
     rating: 4.7,
     reviews: 32000,
     pricing: 'Free - $12.50/user/mo',
     features: ['Channels & DMs', 'Huddles & clips', '2,400+ integrations', 'Enterprise security'],
     website: 'https://slack.com',
-    matchKeywords: ['communication', 'chat', 'messaging', 'team', 'channels', 'remote', 'async', 'collaboration', 'integrations', 'workflow'],
+    matchKeywords: ['communication', 'chat', 'messaging', 'team', 'channels', 'remote', 'async', 'collaboration'],
   },
   {
     id: 3,
     name: 'Linear',
     tagline: "The issue tracking tool you'll enjoy using",
-    description: 'Linear is a better way to build products. Streamline issues, projects, and product roadmaps with a beautiful, fast interface.',
+    description: 'Linear is a better way to build products. Streamline issues, projects, and product roadmaps.',
     category: 'Project Management',
     rating: 4.9,
     reviews: 4200,
     pricing: 'Free - $8/user/mo',
     features: ['Lightning fast UI', 'Keyboard-first design', 'GitHub sync', 'Cycles & roadmaps'],
     website: 'https://linear.app',
-    matchKeywords: ['issues', 'bugs', 'tickets', 'sprints', 'agile', 'development', 'engineering', 'tracking', 'roadmap', 'product', 'scrum', 'kanban'],
+    matchKeywords: ['issues', 'bugs', 'tickets', 'sprints', 'agile', 'development', 'engineering', 'tracking', 'roadmap'],
   },
   {
     id: 4,
     name: 'Figma',
     tagline: 'Design, prototype, and collaborate in one place',
-    description: 'Figma helps teams create, test, and ship better designs from start to finish. The collaborative interface design tool.',
+    description: 'Figma helps teams create, test, and ship better designs from start to finish.',
     category: 'Design',
     rating: 4.8,
     reviews: 18900,
     pricing: 'Free - $15/editor/mo',
     features: ['Real-time collaboration', 'Prototyping', 'Design systems', 'Dev mode'],
     website: 'https://figma.com',
-    matchKeywords: ['design', 'ui', 'ux', 'prototype', 'wireframe', 'mockup', 'creative', 'interface', 'graphics', 'visual', 'collaboration'],
+    matchKeywords: ['design', 'ui', 'ux', 'prototype', 'wireframe', 'mockup', 'creative', 'interface'],
   },
   {
     id: 5,
     name: 'Vercel',
     tagline: 'Develop. Preview. Ship.',
-    description: 'Vercel is the platform for frontend developers, providing the speed and reliability innovators need to create at the moment of inspiration.',
+    description: 'Vercel is the platform for frontend developers, providing speed and reliability.',
     category: 'Development',
     rating: 4.9,
     reviews: 8700,
     pricing: 'Free - $20/user/mo',
     features: ['Edge network', 'Serverless functions', 'Preview deployments', 'Analytics'],
     website: 'https://vercel.com',
-    matchKeywords: ['hosting', 'deployment', 'frontend', 'react', 'nextjs', 'serverless', 'website', 'web app', 'developer', 'infrastructure', 'cloud'],
+    matchKeywords: ['hosting', 'deployment', 'frontend', 'react', 'nextjs', 'serverless', 'website', 'developer'],
   },
   {
     id: 6,
     name: 'Stripe',
     tagline: 'Financial infrastructure for the internet',
-    description: 'Stripe powers online and in-person payment processing and financial solutions for businesses of all sizes.',
+    description: 'Stripe powers online and in-person payment processing for businesses of all sizes.',
     category: 'Payments',
     rating: 4.7,
     reviews: 15600,
     pricing: '2.9% + 30¢ per txn',
     features: ['Payment processing', 'Billing & subscriptions', 'Fraud prevention', 'Global payments'],
     website: 'https://stripe.com',
-    matchKeywords: ['payments', 'billing', 'subscriptions', 'ecommerce', 'checkout', 'transactions', 'money', 'revenue', 'invoicing', 'financial'],
-  },
-  {
-    id: 7,
-    name: 'GitHub',
-    tagline: 'Where the world builds software',
-    description: 'GitHub is the complete developer platform to build, scale, and deliver secure software. Code, collaborate, and ship.',
-    category: 'Development',
-    rating: 4.8,
-    reviews: 45000,
-    pricing: 'Free - $21/user/mo',
-    features: ['Git repositories', 'GitHub Actions CI/CD', 'Copilot AI', 'Code review'],
-    website: 'https://github.com',
-    matchKeywords: ['code', 'git', 'repository', 'version control', 'ci/cd', 'devops', 'open source', 'collaboration', 'developer', 'software'],
-  },
-  {
-    id: 8,
-    name: 'HubSpot',
-    tagline: 'Grow better with HubSpot',
-    description: "HubSpot's CRM platform has all the tools and integrations you need for marketing, sales, content management, and customer service.",
-    category: 'CRM & Marketing',
-    rating: 4.6,
-    reviews: 28000,
-    pricing: 'Free - $800+/mo',
-    features: ['CRM & contacts', 'Email marketing', 'Marketing automation', 'Sales pipeline'],
-    website: 'https://hubspot.com',
-    matchKeywords: ['crm', 'marketing', 'sales', 'leads', 'customers', 'email', 'automation', 'pipeline', 'growth', 'contacts', 'inbound'],
-  },
-  {
-    id: 9,
-    name: 'Datadog',
-    tagline: 'See inside any stack, any app, at any scale',
-    description: 'Datadog is the monitoring and security platform for cloud applications. Bring together metrics, traces, and logs.',
-    category: 'DevOps',
-    rating: 4.7,
-    reviews: 6800,
-    pricing: 'Free - $15+/host/mo',
-    features: ['Infrastructure monitoring', 'APM & tracing', 'Log management', 'Security monitoring'],
-    website: 'https://datadoghq.com',
-    matchKeywords: ['monitoring', 'observability', 'logs', 'metrics', 'alerts', 'infrastructure', 'apm', 'devops', 'cloud', 'performance'],
-  },
-  {
-    id: 10,
-    name: 'Airtable',
-    tagline: "Create apps that perfectly fit your team's needs",
-    description: 'Airtable is a low-code platform to build next-gen apps. Move beyond rigid tools with a collaborative app platform.',
-    category: 'No-Code',
-    rating: 4.7,
-    reviews: 11200,
-    pricing: 'Free - $20/user/mo',
-    features: ['Flexible databases', 'Automations', 'Interface designer', 'Extensions'],
-    website: 'https://airtable.com',
-    matchKeywords: ['database', 'spreadsheet', 'no-code', 'automation', 'workflow', 'organize', 'tables', 'data', 'apps', 'low-code'],
+    matchKeywords: ['payments', 'billing', 'subscriptions', 'ecommerce', 'checkout', 'transactions', 'money'],
   },
 ]
 
@@ -155,11 +103,9 @@ function matchVendors(query: string): typeof VENDORS {
     
     if (queryLower.includes(vendor.name.toLowerCase())) score += 30
     if (vendor.category.toLowerCase().includes(queryLower)) score += 12
-    
     words.forEach(word => {
       if (vendor.category.toLowerCase().includes(word)) score += 8
       if (vendor.tagline.toLowerCase().includes(word)) score += 5
-      if (vendor.description.toLowerCase().includes(word)) score += 2
     })
     
     return { ...vendor, score }
@@ -185,8 +131,7 @@ export default function HavenPage() {
     setIsSearching(true)
     setHasSearched(true)
     
-    // Brief delay for UX
-    await new Promise(resolve => setTimeout(resolve, 800))
+    await new Promise(resolve => setTimeout(resolve, 1200))
     
     const matches = matchVendors(query)
     setResults(matches.length > 0 ? matches : VENDORS.slice(0, 3))
@@ -200,95 +145,99 @@ export default function HavenPage() {
   return (
     <main className="min-h-screen bg-white">
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm border-b border-gray-100">
-        <nav className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-          <span className="font-serif text-xl font-medium">Haven</span>
+      <header className="px-6 py-6 border-b border-gray-100">
+        <nav className="max-w-5xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center">
+              <span className="text-white text-sm font-medium">H</span>
+            </div>
+            <span className="text-lg font-medium">Haven</span>
+          </div>
           <span className="text-sm text-gray-500">Software Discovery</span>
         </nav>
       </header>
 
-      {/* Hero */}
-      <section className="min-h-screen flex flex-col items-center justify-center px-6 pt-20">
+      {/* Hero Section */}
+      <section className="px-6 pt-24 pb-20">
         <div className="max-w-3xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gray-200 text-sm text-gray-600 mb-12">
-            <span className="w-1.5 h-1.5 rounded-full bg-black"></span>
-            AI-powered recommendations
-          </div>
-
-          <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl font-normal tracking-tight mb-8 leading-[1.1]">
-            Find Your Software
+          {/* Main Title */}
+          <h1 className="font-serif text-5xl md:text-6xl font-normal mb-6 leading-tight tracking-tight">
+            Find Software
           </h1>
-
-          <p className="text-xl text-gray-600 max-w-xl mx-auto mb-12 leading-relaxed">
-            Describe what you need in plain English. We'll match you with the best tools for your business.
+          
+          <p className="text-lg text-gray-600 max-w-xl mx-auto mb-12">
+            Describe what you need. We'll match you with the right tools.
           </p>
 
-          {/* Search */}
-          <form onSubmit={handleSearch} className="w-full max-w-xl mx-auto">
-            <div className="relative">
+          {/* Search Bar */}
+          <form onSubmit={handleSearch} className="max-w-xl mx-auto">
+            <div className="flex items-center gap-3 border border-gray-200 rounded-lg px-4 py-3 focus-within:border-gray-400 transition-colors">
+              <Search className="w-5 h-5 text-gray-400" />
               <input
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="What kind of software do you need?"
-                className="w-full px-6 py-4 pr-32 text-lg border border-gray-200 rounded-full focus:outline-none focus:border-gray-400 transition-colors"
+                placeholder="I need a tool for..."
+                className="flex-1 bg-transparent text-base placeholder:text-gray-400 focus:outline-none"
               />
               <button
                 type="submit"
                 disabled={isSearching || !query.trim()}
-                className="absolute right-2 top-1/2 -translate-y-1/2 px-6 py-2.5 bg-black text-white text-sm font-medium rounded-full hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
+                className="px-5 py-2 bg-black text-white text-sm font-medium rounded-md hover:bg-gray-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
               >
                 {isSearching ? (
-                  'Searching...'
+                  <span>Searching...</span>
                 ) : (
                   <>
-                    Search
+                    <span>Search</span>
                     <ArrowRight className="w-4 h-4" />
                   </>
                 )}
               </button>
             </div>
-          </form>
 
-          {/* Example queries */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-2 text-sm">
-            <span className="text-gray-400">Try:</span>
-            {['project management', 'team chat', 'design tools'].map((example) => (
-              <button
-                key={example}
-                onClick={() => setQuery(example)}
-                className="px-3 py-1.5 rounded-full border border-gray-200 text-gray-600 hover:border-gray-400 hover:text-black transition-colors"
-              >
-                {example}
-              </button>
-            ))}
-          </div>
+            {/* Example queries */}
+            <div className="mt-4 flex items-center justify-center gap-2 flex-wrap">
+              <span className="text-sm text-gray-400">Try:</span>
+              {['team chat', 'design tools', 'issue tracking'].map((example) => (
+                <button
+                  key={example}
+                  type="button"
+                  onClick={() => setQuery(example)}
+                  className="px-3 py-1 text-sm text-gray-600 hover:text-black border border-gray-200 hover:border-gray-300 rounded-full transition-colors"
+                >
+                  {example}
+                </button>
+              ))}
+            </div>
+          </form>
         </div>
       </section>
 
-      {/* Results */}
+      {/* Results Section */}
       {hasSearched && (
-        <section ref={resultsRef} className="px-6 py-24 border-t border-gray-100">
-          <div className="max-w-5xl mx-auto">
+        <section ref={resultsRef} className="px-6 pb-24">
+          <div className="max-w-4xl mx-auto">
             {isSearching ? (
-              <div className="text-center py-20">
-                <div className="inline-block w-8 h-8 border-2 border-gray-200 border-t-black rounded-full animate-spin mb-4"></div>
-                <p className="text-gray-600">Finding the best matches...</p>
+              <div className="flex flex-col items-center justify-center py-16">
+                <div className="w-8 h-8 border-2 border-gray-200 border-t-gray-600 rounded-full animate-spin mb-4" />
+                <p className="text-gray-500">Finding matches...</p>
               </div>
             ) : results.length > 0 ? (
               <>
-                <div className="text-center mb-16">
-                  <p className="text-sm text-gray-500 mb-2">Results for</p>
-                  <h2 className="font-serif text-3xl">{query}</h2>
+                <div className="mb-8">
+                  <h2 className="font-serif text-2xl font-normal">
+                    Results for "{query}"
+                  </h2>
                 </div>
 
-                <div className="grid gap-6 md:grid-cols-3">
+                <div className="space-y-4">
                   {results.map((vendor, index) => (
                     <VendorCard key={vendor.id} vendor={vendor} rank={index + 1} />
                   ))}
                 </div>
 
-                <div className="text-center mt-16">
+                <div className="text-center mt-10">
                   <button
                     onClick={() => {
                       setQuery('')
@@ -296,10 +245,9 @@ export default function HavenPage() {
                       setResults([])
                       window.scrollTo({ top: 0, behavior: 'smooth' })
                     }}
-                    className="inline-flex items-center gap-2 px-6 py-3 border border-gray-200 rounded-full text-sm hover:border-gray-400 transition-colors"
+                    className="text-sm text-gray-500 hover:text-black transition-colors"
                   >
-                    <Search className="w-4 h-4" />
-                    New search
+                    ← New search
                   </button>
                 </div>
               </>
@@ -309,10 +257,10 @@ export default function HavenPage() {
       )}
 
       {/* Footer */}
-      <footer className="px-6 py-8 border-t border-gray-100">
+      <footer className="px-6 py-6 border-t border-gray-100">
         <div className="max-w-5xl mx-auto flex items-center justify-between text-sm text-gray-400">
-          <span className="font-serif">Haven</span>
-          <span>Software discovery, simplified</span>
+          <span>Haven</span>
+          <span>Software discovery, simplified.</span>
         </div>
       </footer>
     </main>
@@ -321,47 +269,46 @@ export default function HavenPage() {
 
 function VendorCard({ vendor, rank }: { vendor: typeof VENDORS[0]; rank: number }) {
   return (
-    <div className="group p-6 border border-gray-200 rounded-2xl hover:border-gray-400 transition-colors">
-      {/* Header */}
-      <div className="flex items-start justify-between mb-4">
-        <div>
-          <h3 className="font-serif text-xl mb-1">{vendor.name}</h3>
-          <p className="text-sm text-gray-500">{vendor.category}</p>
+    <div className="border border-gray-200 rounded-lg p-6 hover:border-gray-300 transition-colors">
+      <div className="flex items-start gap-4">
+        <div className="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center text-lg font-medium shrink-0">
+          {vendor.name[0]}
         </div>
-        <span className="text-xs text-gray-400 font-medium">#{rank}</span>
-      </div>
-
-      {/* Tagline */}
-      <p className="text-gray-600 text-sm mb-6 leading-relaxed">{vendor.tagline}</p>
-
-      {/* Rating */}
-      <div className="flex items-center gap-2 mb-6 pb-6 border-b border-gray-100">
-        <Star className="w-4 h-4 fill-black" />
-        <span className="font-medium">{vendor.rating}</span>
-        <span className="text-sm text-gray-400">({vendor.reviews.toLocaleString()} reviews)</span>
-      </div>
-
-      {/* Features */}
-      <div className="space-y-2 mb-6">
-        {vendor.features.slice(0, 3).map((feature) => (
-          <div key={feature} className="flex items-center gap-2 text-sm text-gray-600">
-            <Check className="w-4 h-4 text-gray-400" />
-            {feature}
+        
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-3 mb-1">
+            <h3 className="font-serif text-xl">{vendor.name}</h3>
+            <span className="text-xs text-gray-400 border border-gray-200 px-2 py-0.5 rounded">
+              {vendor.category}
+            </span>
           </div>
-        ))}
-      </div>
-
-      {/* Footer */}
-      <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-        <div>
-          <p className="text-xs text-gray-400">Starting at</p>
-          <p className="font-medium text-sm">{vendor.pricing}</p>
+          
+          <p className="text-gray-600 text-sm mb-3">{vendor.tagline}</p>
+          
+          <div className="flex items-center gap-4 text-sm">
+            <div className="flex items-center gap-1">
+              <Star className="w-4 h-4 text-gray-400 fill-gray-400" />
+              <span className="text-gray-700">{vendor.rating}</span>
+              <span className="text-gray-400">({vendor.reviews.toLocaleString()})</span>
+            </div>
+            <span className="text-gray-400">•</span>
+            <span className="text-gray-600">{vendor.pricing}</span>
+          </div>
+          
+          <div className="flex flex-wrap gap-2 mt-3">
+            {vendor.features.slice(0, 3).map((feature) => (
+              <span key={feature} className="text-xs text-gray-500 bg-gray-50 px-2 py-1 rounded">
+                {feature}
+              </span>
+            ))}
+          </div>
         </div>
+        
         <a
           href={vendor.website}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium border border-gray-200 rounded-full hover:bg-black hover:text-white hover:border-black transition-colors"
+          className="shrink-0 px-4 py-2 text-sm border border-gray-200 rounded-md hover:border-gray-300 hover:bg-gray-50 transition-colors flex items-center gap-2"
         >
           Visit
           <ExternalLink className="w-3.5 h-3.5" />
